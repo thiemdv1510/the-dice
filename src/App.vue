@@ -1,8 +1,16 @@
 <template>
   <div id="app">
     <div class="wrapper clearfix">
-      <players v-bind:scorePlayer="scorePlayer" v-bind:activePlayer="activePlayer" />
-      <controls v-on:handleNewGame="handleNewGame" v-on:handleRollDice="handleRollDice" />
+      <players
+        v-bind:scorePlayer="scorePlayer"
+        v-bind:activePlayer="activePlayer"
+        v-bind:currentScore="currentScore"
+      />
+      <controls
+        v-on:handleNewGame="handleNewGame"
+        v-on:handleRollDice="handleRollDice"
+        v-on:handleHold="handleHold"
+      />
       <dices v-bind:dice="dice" />
       <popup-role v-bind:showPopupRole="showPopupRole" v-on:handleAgree="handleAgree" />
     </div>
@@ -46,6 +54,27 @@ export default {
         let dice1 = parseInt(Math.random() * 6);
         let dice2 = parseInt(Math.random() * 6);
         this.dice = [dice1, dice2];
+        this.currentScore = this.dice.reduce((accumulator, currentValue) => {
+          return accumulator + currentValue;
+        });
+      }
+    },
+    handleHold() {
+      console.log("handle hold");
+      this.updateScorePlayer();
+      this.activePlayer = this.activePlayer == 0 ? 1 : 0;
+    },
+    updateScorePlayer() {
+      if (this.activePlayer == 0) {
+        this.scorePlayer = [
+          this.scorePlayer[0] + this.currentScore,
+          this.scorePlayer[1]
+        ];
+      } else {
+        this.scorePlayer = [
+          this.scorePlayer[0],
+          this.scorePlayer[1] + this.currentScore
+        ];
       }
     }
   },
