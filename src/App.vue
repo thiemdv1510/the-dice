@@ -2,8 +2,8 @@
   <div id="app">
     <div class="wrapper clearfix">
       <players v-bind:scorePlayer="scorePlayer" v-bind:activePlayer="activePlayer" />
-      <controls v-on:handleNewGame="handleNewGame" />
-      <dices />
+      <controls v-on:handleNewGame="handleNewGame" v-on:handleRollDice="handleRollDice" />
+      <dices v-bind:dice="dice" />
       <popup-role v-bind:showPopupRole="showPopupRole" v-on:handleAgree="handleAgree" />
     </div>
   </div>
@@ -23,9 +23,11 @@ export default {
       activeGame: false,
       activePlayer: 1,
       scorePlayer: [6, 9],
-      currentScore: 0
+      currentScore: 0,
+      dice: [5, 6]
     };
   },
+  created() {},
   methods: {
     handleNewGame() {
       console.log("HandleNewGame");
@@ -38,6 +40,13 @@ export default {
       this.currentScore = 0;
       this.activePlayer = 0;
       this.showPopupRole = false;
+    },
+    handleRollDice() {
+      if (this.activeGame) {
+        let dice1 = parseInt(Math.random() * 6);
+        let dice2 = parseInt(Math.random() * 6);
+        this.dice = [dice1, dice2];
+      }
     }
   },
   components: {

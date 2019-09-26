@@ -1,7 +1,7 @@
 <template>
   <div id="wrap-dices">
     <div id="dice-1" class="dice">
-      <div class="spinner dice-3">
+      <div class="spinner" v-bind:class="'dice-' + dice[0]">
         <div class="face1">1</div>
         <div class="face2">2</div>
         <div class="face3">3</div>
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div id="dice-2" class="dice">
-      <div class="spinner dice-6">
+      <div class="spinner" v-bind:class="'dice-' + dice[1]">
         <div class="face1">1</div>
         <div class="face2">2</div>
         <div class="face3">3</div>
@@ -24,7 +24,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "dices",
+  data() {
+    return {};
+  },
+  props: {
+    dice: {
+      type: Array,
+      default: [1, 1]
+    }
+  },
+  methods: {}
+};
 </script>
 
 <style>

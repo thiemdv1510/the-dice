@@ -1,13 +1,13 @@
 <template>
   <div id="wrap-control">
-    <button class="control btn-new" @click="newGame()">
+    <button class="control btn-new" @click="newGame">
       <i class="ion-ios-plus-outline"></i>New game
     </button>
-    <button class="control btn-roll">
+    <button class="control btn-roll" @click="rollDice">
       <i class="ion-ios-loop"></i>Roll dice
     </button>
     <button class="control btn-hold">
-      <i class="ion-ios-download-outline"></i>Hold
+      <i class="ion-ios-download-outline" @click="hold"></i>Hold
     </button>
 
     <input type="number" placeholder="Final score" class="final-score" />
@@ -24,6 +24,12 @@ export default {
     newGame() {
       console.log("Call newGame in Control");
       this.$emit("handleNewGame");
+    },
+    rollDice() {
+      this.$emit("handleRollDice");
+    },
+    hold() {
+      this.$emit("handleHold");
     }
   }
 };
