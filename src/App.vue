@@ -1,24 +1,50 @@
 <template>
   <div id="app">
     <div class="wrapper clearfix">
-      <players />
-      <controls />
+      <players v-bind:scorePlayer="scorePlayer" v-bind:activePlayer="activePlayer" />
+      <controls v-on:handleNewGame="handleNewGame" />
       <dices />
+      <popup-role v-bind:showPopupRole="showPopupRole" v-on:handleAgree="handleAgree" />
     </div>
   </div>
 </template>
 
 <script>
-import players from "./components/Players";
-import controls from "./components/Controls";
-import dices from "./components/Dices";
+import Players from "./components/Players";
+import Controls from "./components/Controls";
+import Dices from "./components/Dices";
+import PopupRole from "./components/PopupRole";
 
 export default {
   name: "app",
+  data() {
+    return {
+      showPopupRole: false,
+      activeGame: false,
+      activePlayer: 1,
+      scorePlayer: [6, 9],
+      currentScore: 0
+    };
+  },
+  methods: {
+    handleNewGame() {
+      console.log("HandleNewGame");
+      this.showPopupRole = true;
+    },
+    handleAgree() {
+      console.log("HandleAgree");
+      this.activeGame = true;
+      this.scorePlayer = [0, 0];
+      this.currentScore = 0;
+      this.activePlayer = 0;
+      this.showPopupRole = false;
+    }
+  },
   components: {
-    players,
-    controls,
-    dices
+    Players,
+    Controls,
+    Dices,
+    PopupRole
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div id="wrap-control">
-    <button class="control btn-new">
+    <button class="control btn-new" @click="newGame()">
       <i class="ion-ios-plus-outline"></i>New game
     </button>
     <button class="control btn-roll">
@@ -19,6 +19,12 @@ export default {
   name: "controls",
   data() {
     return {};
+  },
+  methods: {
+    newGame() {
+      console.log("Call newGame in Control");
+      this.$emit("handleNewGame");
+    }
   }
 };
 </script>
