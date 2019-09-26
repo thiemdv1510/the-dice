@@ -5,11 +5,16 @@
         v-bind:scorePlayer="scorePlayer"
         v-bind:activePlayer="activePlayer"
         v-bind:currentScore="currentScore"
+        v-bind:playerWinner="playerWinner"
+        v-bind:isWinner="isWinner"
       />
       <controls
         v-on:handleNewGame="handleNewGame"
         v-on:handleRollDice="handleRollDice"
         v-on:handleHold="handleHold"
+        v-on:changeFinalScore="changeFinalScore"
+        v-bind:activeGame="activeGame"
+        v-bind:finalScore="finalScore"
       />
       <dices v-bind:dice="dice" />
       <popup-role v-bind:showPopupRole="showPopupRole" v-on:handleAgree="handleAgree" />
@@ -32,10 +37,25 @@ export default {
       activePlayer: 1,
       scorePlayer: [6, 9],
       currentScore: 0,
-      dice: [5, 6]
+      dice: [5, 6],
+      finalScore: 0,
+      playerWinner: 0
     };
   },
   created() {},
+  computed: {
+    isWinner() {
+      if (
+        this.scorePlayer[0] >= this.finalScore ||
+        this.scorePlayer[1] >= this.finalScore
+      ) {
+        this.activeGame = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
   methods: {
     handleNewGame() {
       console.log("HandleNewGame");
@@ -51,18 +71,27 @@ export default {
     },
     handleRollDice() {
       if (this.activeGame) {
-        let dice1 = parseInt(Math.random() * 6);
-        let dice2 = parseInt(Math.random() * 6);
-        this.dice = [dice1, dice2];
+        // let dice1 = Math.floor(Math.random() * 6);
+        // let dice2 = Math.floor(Math.random() * 6);
+        this.dice = [this.randomNumberLowerSix(), this.randomNumberLowerSix()];
         this.currentScore = this.dice.reduce((accumulator, currentValue) => {
           return accumulator + currentValue;
         });
+      } else {
+        alert("Please press new game button!!!");
       }
     },
     handleHold() {
       console.log("handle hold");
-      this.updateScorePlayer();
-      this.activePlayer = this.activePlayer == 0 ? 1 : 0;
+      if (this.activeGame) {
+        this.updateScorePlayer();
+        if (!this.isWinner) {
+          this.activePlayer = this.activePlayer == 0 ? 1 : 0;
+          this.currentScore = 0;
+        }
+      } else {
+        alert("Please press new game button!!!");
+      }
     },
     updateScorePlayer() {
       if (this.activePlayer == 0) {
@@ -76,6 +105,19 @@ export default {
           this.scorePlayer[1] + this.currentScore
         ];
       }
+    },
+    changeFinalScore(e) {
+      console.log("final score");
+      let finalScore = parseInt(e.target.value);
+      console.log(finalScore);
+      if (isNaN(finalScore)) {
+        this.finalScore = 0;
+      } else {
+        this.finalScore = finalScore;
+      }
+    },
+    randomNumberLowerSix() {
+      return Math.floor(Math.random() * 6);
     }
   },
   components: {

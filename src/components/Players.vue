@@ -1,7 +1,10 @@
 <template>
   <div id="wraper-player">
-    <div class="player-panel" v-bind:class="{active:activePlayer === 0}">
-      <div class="player-name">Player 1</div>
+    <div
+      class="player-panel"
+      v-bind:class="{active:activePlayer === 0 && !isWinner, winner:isWinner && activePlayer == 0}"
+    >
+      <div class="player-name">{{getPlayerName(1)}}</div>
       <div class="player-score">{{scorePlayer[0]}}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
@@ -10,7 +13,7 @@
     </div>
 
     <div class="player-panel" v-bind:class="{active:activePlayer === 1 }">
-      <div class="player-name">Player 2</div>
+      <div class="player-name">{{getPlayerName(2)}}</div>
       <div class="player-score">{{scorePlayer[1]}}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
@@ -24,21 +27,38 @@
 export default {
   name: "players",
   props: {
-    scorePlayer : {
+    scorePlayer: {
       type: Array,
       default: [0, 0]
     },
-    activePlayer : {
+    activePlayer: {
       type: Number,
       default: 0
     },
-    currentScore : {
+    currentScore: {
       type: Number,
       default: 0
+    },
+    playerWinner: {
+      type: Number,
+      default: 0
+    },
+    isWinner: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {};
+  },
+  methods: {
+    getPlayerName(numberPlayer) {
+      if (this.isWinner) {
+        return "Winner";
+      } else {
+        return "Player " + numberPlayer;
+      }
+    }
   }
 };
 </script>

@@ -10,13 +10,30 @@
       <i class="ion-ios-download-outline"></i>Hold
     </button>
 
-    <input type="number" placeholder="Final score" class="final-score" />
+    <input
+      type="number"
+      placeholder="Final score"
+      class="final-score"
+      v-on:input="changeFinalScore"
+      :value="finalScore"
+      v-bind:disabled="activeGame"
+    />
   </div>
 </template>
 
 <script>
 export default {
   name: "controls",
+  props: {
+    finalScore: {
+      type: Number,
+      default: 0
+    },
+    activeGame: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {};
   },
@@ -30,6 +47,9 @@ export default {
     },
     hold() {
       this.$emit("handleHold");
+    },
+    changeFinalScore(e) {
+      this.$emit("changeFinalScore", e);
     }
   }
 };
