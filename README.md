@@ -1,4 +1,4 @@
-Game dice
+#Game dice
 
 ## Project setup
 
